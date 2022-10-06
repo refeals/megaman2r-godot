@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://character/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+
+[sub_resource type="CanvasItemMaterial" id=2]
+next_pass = SubResource( 1 )
+blend_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id=3]
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 35, 32 )
+
+[node name="World" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 112, 136 )
+scale = Vector2( 3, 3 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Icon" type="Sprite" parent="StaticBody2D"]
+material = SubResource( 2 )
+position = Vector2( 419.9, 214 )
+scale = Vector2( 10.5344, 1 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+material = SubResource( 3 )
+shape = SubResource( 4 )
