@@ -148,4 +148,7 @@ script = ExtResource( 11 )
 [node name="Slide" type="Node" parent="StateMachine"]
 script = ExtResource( 12 )
 
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
 [connection signal="timeout" from="StateMachine/Idle/Timer" to="StateMachine/Idle" method="_on_Timer_timeout"]

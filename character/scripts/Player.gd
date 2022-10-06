@@ -20,7 +20,6 @@ var currentShootTimer = 0
 var ladderAnimationTimer = 0
 
 onready var animatedSprite := $AnimatedSprite
-onready var stateMachine := $MovementStateMachine
 
 func _ready() -> void:
   randomize()

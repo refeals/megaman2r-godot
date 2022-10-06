@@ -1,15 +1,15 @@
 extends State
 
-func enter() -> void:
+func enter(_msg := {}) -> void:
   return
 
-func handle_input(event: InputEvent) -> void:
+func handle_input(_event: InputEvent) -> void:
   return
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
   return
-  
-func physics_process(delta: float) -> void:
+
+func physics_process(_delta: float) -> void:
   return
 
 func exit() -> void:

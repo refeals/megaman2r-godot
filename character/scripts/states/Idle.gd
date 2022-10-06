@@ -2,26 +2,26 @@ extends State
 
 onready var timer = $Timer
 
-func enter() -> void:
+func enter(_msg := {}) -> void:
   owner.animatedSprite.set_animation("Idle")
   owner.animatedSprite.stop()
 
-func handle_input(event: InputEvent) -> void:
+func handle_input(_event: InputEvent) -> void:
   return
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
   var x_input = Input.get_axis("ui_left", "ui_right")
-  
+
   if x_input != 0:
     state_machine.change_state("Run")
 
   elif Input.is_action_pressed("ui_jump"):
     state_machine.change_state("Jump")
-    
+
   elif !owner.is_on_floor():
     state_machine.change_state("Fall")
   return
-  
+
 func physics_process(delta: float) -> void:
   owner.applyGravity(delta)
   return

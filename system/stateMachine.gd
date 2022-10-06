@@ -20,27 +20,27 @@ func _ready() -> void:
   yield(owner, "ready")
   for child in get_children():
     child.state_machine = self
-  
+
   current_state.enter()
 #    child.connect("finished", self, "_change_state")
 
 func _unhandled_input(event: InputEvent) -> void:
   current_state.handle_input(event)
-  
+
 func _process(delta: float) -> void:
   current_state.process(delta)
-  
+
 func _physics_process(delta: float) -> void:
   current_state.physics_process(delta)
-  
+
 func change_state(target_state_name: String, msg := {}):
   if not has_node(target_state_name):
     return
-  
+
   current_state.exit()
   previous_state = current_state
   current_state = get_node(target_state_name)
-  current_state.enter()
+  current_state.enter(msg)
   emit_signal("state_changed", current_state.name)
   print(previous_state.name, " -> ", current_state.name)
 
