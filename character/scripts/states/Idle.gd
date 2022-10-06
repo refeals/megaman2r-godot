@@ -13,13 +13,13 @@ func process(_delta: float) -> void:
   var x_input = Input.get_axis("ui_left", "ui_right")
 
   if x_input != 0:
-    state_machine.change_state("Run")
+    state_machine.change_state(state_machine.states_map.Run)
 
   elif Input.is_action_pressed("ui_jump"):
-    state_machine.change_state("Jump")
+    state_machine.change_state(state_machine.states_map.Jump)
 
   elif !owner.is_on_floor():
-    state_machine.change_state("Fall")
+    state_machine.change_state(state_machine.states_map.Fall)
   return
 
 func physics_process(delta: float) -> void:

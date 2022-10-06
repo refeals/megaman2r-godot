@@ -12,12 +12,12 @@ func process(_delta: float) -> void:
 
   if owner.is_on_floor():
     if x_input == 0:
-      state_machine.change_state("Idle")
+      state_machine.change_state(state_machine.states_map.Idle)
     else:
-      state_machine.change_state("Run")
+      state_machine.change_state(state_machine.states_map.Run)
 
   if owner.motion.y >= 0 and !owner.is_on_floor():
-    state_machine.change_state("Fall")
+    state_machine.change_state(state_machine.states_map.Fall)
 
 func physics_process(delta: float) -> void:
   var x_input = Input.get_axis("ui_left", "ui_right")

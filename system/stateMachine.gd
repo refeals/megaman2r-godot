@@ -33,13 +33,13 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
   current_state.physics_process(delta)
 
-func change_state(target_state_name: String, msg := {}):
-  if not has_node(target_state_name):
+func change_state(target_state: Node, msg := {}):
+  if not target_state:
     return
 
   current_state.exit()
   previous_state = current_state
-  current_state = get_node(target_state_name)
+  current_state = target_state
   current_state.enter(msg)
   emit_signal("state_changed", current_state.name)
   print(previous_state.name, " -> ", current_state.name)
