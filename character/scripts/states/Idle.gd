@@ -23,6 +23,7 @@ func process(delta: float) -> void:
   return
   
 func physics_process(delta: float) -> void:
+  owner.applyGravity(delta)
   return
 
 func exit() -> void:

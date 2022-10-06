@@ -15,8 +15,8 @@ func process(delta: float) -> void:
   if Input.is_action_pressed("ui_jump"):
     state_machine.change_state("Jump")
 
-#  elif !owner.is_on_floor():
-#    state_machine.change_state("Fall")
+  elif !owner.is_on_floor():
+    state_machine.change_state("Fall")
     
 #  elif Input.is_action_just_pressed("ui_shoot"):
 #    print("shoot")
@@ -41,6 +41,8 @@ func physics_process(delta: float) -> void:
   # movement specific code
   if x_input == 0:
     owner.motion.x = lerp(owner.motion.x, 0, owner.FRICTION * delta)
+  
+  owner.applyGravity(delta)
 
   owner.motion = owner.move_and_slide(owner.motion, Vector2.UP)
   
