@@ -1,8 +1,11 @@
 extends State
 
+var isOffTheFloor
+
 func enter(_msg := {}) -> void:
   owner.animatedSprite.play("Jump")
   owner.motion.y = -owner.JUMP_FORCE
+  isOffTheFloor = false
 
 func handle_input(_event: InputEvent) -> void:
   return
@@ -10,14 +13,21 @@ func handle_input(_event: InputEvent) -> void:
 func process(_delta: float) -> void:
   var x_input = Input.get_axis("ui_left", "ui_right")
 
-  if owner.is_on_floor():
+  if isOffTheFloor and owner.is_on_floor():
     if x_input == 0:
       state_machine.change_state(state_machine.states_map.Idle)
+      return
     else:
       state_machine.change_state(state_machine.states_map.Run)
+      return
 
   if owner.motion.y >= 0 and !owner.is_on_floor():
     state_machine.change_state(state_machine.states_map.Fall)
+    return
+
+  if Input.is_action_just_pressed("ui_shoot"):
+    print("shoot")
+    return
 
 func physics_process(delta: float) -> void:
   var x_input = Input.get_axis("ui_left", "ui_right")
@@ -25,14 +35,14 @@ func physics_process(delta: float) -> void:
   if x_input != 0:
     owner.animatedSprite.flip_h = x_input < 0
 
-  owner.motion.x += x_input * owner.ACCELERATION * delta * owner.TARGET_FPS
+  owner.motion.x += x_input * owner.ACCELERATION * owner.TARGET_FPS
 
   if x_input > 0:
     owner.motion.x = clamp(owner.motion.x, 0, owner.MAX_SPEED)
   elif x_input < 0:
     owner.motion.x = clamp(owner.motion.x, -owner.MAX_SPEED, 0)
 
-  owner.applyGravity(delta)
+  owner.applyGravity()
 
   if Input.is_action_just_released("ui_jump") and owner.motion.y < 0:
     owner.motion.y = -25
@@ -49,6 +59,9 @@ func physics_process(delta: float) -> void:
 #      return "ladder"
 
   owner.motion = owner.move_and_slide(owner.motion, Vector2.UP)
+
+  if not isOffTheFloor and not owner.is_on_floor():
+    isOffTheFloor = true
 
 func exit() -> void:
   return

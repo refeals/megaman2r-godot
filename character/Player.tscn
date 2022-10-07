@@ -13,9 +13,6 @@
 [ext_resource path="res://character/scripts/states/Death.gd" type="Script" id=11]
 [ext_resource path="res://character/scripts/states/Slide.gd" type="Script" id=12]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 7.5, 10 )
-
 [sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 128, 32, 32 )
@@ -102,17 +99,34 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7, 7 )
+
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 7 )
 
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 1, -12 )
+frames = SubResource( 7 )
+animation = "Idle"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.5, -10 )
+position = Vector2( 0, -7 )
 shape = SubResource( 1 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -12 )
-frames = SubResource( 7 )
-animation = "Fall"
+[node name="SlideRaycastLeft" type="RayCast2D" parent="."]
+position = Vector2( -7, -14 )
+enabled = true
+cast_to = Vector2( 0, -2 )
+
+[node name="SlideRaycastRight" type="RayCast2D" parent="."]
+position = Vector2( 7, -14 )
+enabled = true
+cast_to = Vector2( 0, -2 )
+
+[node name="FloorRaycast" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, 1 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -121,7 +135,7 @@ initial_state = NodePath("Idle")
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource( 4 )
 
-[node name="Timer" type="Timer" parent="StateMachine/Idle"]
+[node name="IdleTimer" type="Timer" parent="StateMachine/Idle"]
 one_shot = true
 
 [node name="Run" type="Node" parent="StateMachine"]
@@ -148,7 +162,12 @@ script = ExtResource( 11 )
 [node name="Slide" type="Node" parent="StateMachine"]
 script = ExtResource( 12 )
 
+[node name="SlideTimer" type="Timer" parent="StateMachine/Slide"]
+one_shot = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
+visible = false
 current = true
 
-[connection signal="timeout" from="StateMachine/Idle/Timer" to="StateMachine/Idle" method="_on_Timer_timeout"]
+[connection signal="timeout" from="StateMachine/Idle/IdleTimer" to="StateMachine/Idle" method="_on_Timer_timeout"]
+[connection signal="timeout" from="StateMachine/Slide/SlideTimer" to="StateMachine/Slide" method="_on_SlideTimer_timeout"]

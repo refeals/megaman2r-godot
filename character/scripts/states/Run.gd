@@ -11,18 +11,23 @@ func process(_delta: float) -> void:
 
   if x_input == 0:
     state_machine.change_state(state_machine.states_map.Idle)
+    return
 
-  if Input.is_action_pressed("ui_jump"):
+  if Input.is_action_just_pressed("ui_jump"):
     state_machine.change_state(state_machine.states_map.Jump)
+    return
 
-  elif !owner.is_on_floor():
+  if not owner.is_on_floor():
     state_machine.change_state(state_machine.states_map.Fall)
+    return
 
-#  elif Input.is_action_just_pressed("ui_shoot"):
-#    print("shoot")
+  if Input.is_action_just_pressed("ui_shoot"):
+    print("shoot")
+    return
 
-#  elif Input.is_action_just_pressed("ui_slide") or (Input.is_action_pressed("ui_down") and Input.is_action_just_pressed("ui_jump")):
-#    state_machine.change_state(state_machine.states_map.Slide)
+  if Input.is_action_just_pressed("ui_slide") or (Input.is_action_pressed("ui_down") and Input.is_action_just_pressed("ui_jump")):
+    state_machine.change_state(state_machine.states_map.Slide)
+    return
 
 func physics_process(delta: float) -> void:
   var x_input = Input.get_axis("ui_left", "ui_right")
@@ -30,7 +35,7 @@ func physics_process(delta: float) -> void:
   if x_input != 0:
     owner.animatedSprite.flip_h = x_input < 0
 
-  owner.motion.x += x_input * owner.ACCELERATION * delta * owner.TARGET_FPS
+  owner.motion.x += x_input * owner.ACCELERATION * owner.TARGET_FPS
 
   if x_input > 0:
     owner.motion.x = clamp(owner.motion.x, 0, owner.MAX_SPEED)
@@ -40,8 +45,6 @@ func physics_process(delta: float) -> void:
   # movement specific code
   if x_input == 0:
     owner.motion.x = lerp(owner.motion.x, 0, owner.FRICTION * delta)
-
-  owner.applyGravity(delta)
 
   owner.motion = owner.move_and_slide(owner.motion, Vector2.UP)
 

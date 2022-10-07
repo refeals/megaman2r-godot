@@ -31,6 +31,7 @@ func _process(delta: float) -> void:
   current_state.process(delta)
 
 func _physics_process(delta: float) -> void:
+#  print(owner.position)
   current_state.physics_process(delta)
 
 func change_state(target_state: Node, msg := {}):

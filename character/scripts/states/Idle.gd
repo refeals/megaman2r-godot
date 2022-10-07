@@ -1,6 +1,6 @@
 extends State
 
-onready var timer = $Timer
+onready var timer = $IdleTimer
 
 func enter(_msg := {}) -> void:
   owner.animatedSprite.set_animation("Idle")
@@ -14,16 +14,26 @@ func process(_delta: float) -> void:
 
   if x_input != 0:
     state_machine.change_state(state_machine.states_map.Run)
+    return
 
-  elif Input.is_action_pressed("ui_jump"):
+  if Input.is_action_just_pressed("ui_jump"):
     state_machine.change_state(state_machine.states_map.Jump)
+    return
 
-  elif !owner.is_on_floor():
+  if !owner.is_on_floor():
     state_machine.change_state(state_machine.states_map.Fall)
-  return
+    return
+
+  if Input.is_action_just_pressed("ui_shoot"):
+    print("shoot")
+    return
+
+  if Input.is_action_just_pressed("ui_slide") or (Input.is_action_pressed("ui_down") and Input.is_action_just_pressed("ui_jump")):
+    state_machine.change_state(state_machine.states_map.Slide)
+    return
 
 func physics_process(delta: float) -> void:
-  owner.applyGravity(delta)
+  owner.motion.x = lerp(owner.motion.x, 0, owner.FRICTION * delta)
   return
 
 func exit() -> void:
