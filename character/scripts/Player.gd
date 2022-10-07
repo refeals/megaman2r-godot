@@ -29,9 +29,6 @@ onready var slideRaycastLeft := $SlideRaycastLeft
 onready var slideRaycastRight := $SlideRaycastRight
 onready var floorRaycast := $FloorRaycast
 
-func _ready() -> void:
-  randomize()
-
 func _physics_process(_delta: float) -> void:
   return
 
