@@ -15,7 +15,7 @@ func process(_delta: float) -> void:
   var x_input = Input.get_axis("ui_left", "ui_right")
   var isNotCollidingAbove = !owner.slideRaycastLeft.is_colliding() and !owner.slideRaycastRight.is_colliding()
   var direction = -1 if owner.animatedSprite.flip_h else 1
-  
+
   if not owner.is_on_floor():
     state_machine.change_state(state_machine.states_map.Idle)
     return
@@ -38,12 +38,12 @@ func process(_delta: float) -> void:
       direction = x_input
       owner.animatedSprite.flip_h = direction != 1
       return
-  
+
   if timer.is_stopped() and isNotCollidingAbove:
     state_machine.change_state(state_machine.states_map.Idle)
     return
 
-func physics_process(delta: float) -> void:
+func physics_process(_delta: float) -> void:
   var direction = -1 if owner.animatedSprite.flip_h else 1
 
   owner.motion.x += direction * owner.SLIDE_ACCELERATION * owner.TARGET_FPS
@@ -54,7 +54,7 @@ func physics_process(delta: float) -> void:
     owner.motion.x = clamp(owner.motion.x, 0, owner.SLIDE_SPEED)
 
 #  owner.motion.y = 1
-  
+
 #  owner.applyGravity(delta)
 
   owner.motion = owner.move_and_slide(owner.motion)
@@ -66,6 +66,6 @@ func exit() -> void:
 
 func _on_SlideTimer_timeout() -> void:
   var isNotCollidingAbove = !owner.slideRaycastLeft.is_colliding() and !owner.slideRaycastRight.is_colliding()
-  
+
   if isNotCollidingAbove:
     state_machine.change_state(state_machine.states_map.Idle)

@@ -1,7 +1,10 @@
 extends State
 
 func enter(_msg := {}) -> void:
-  owner.animatedSprite.play("Run")
+  if state_machine.previous_state.name == "Idle":
+    owner.animatedSprite.play("PreRun")
+  else:
+    owner.animatedSprite.play("Run")
 
 func handle_input(_event: InputEvent) -> void:
   return
@@ -58,3 +61,8 @@ func physics_process(delta: float) -> void:
 
 func exit() -> void:
   return
+
+
+func _on_AnimatedSprite_animation_finished() -> void:
+  if owner.animatedSprite.get_animation() == "PreRun":
+    owner.animatedSprite.play("Run")
