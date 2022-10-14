@@ -13,7 +13,11 @@ func process(_delta: float) -> void:
   var x_input = Input.get_axis("ui_left", "ui_right")
 
   if x_input != 0:
-    state_machine.change_state(state_machine.states_map.Run)
+    state_machine.change_state(state_machine.states_map.Run, { "shouldRun": false })
+    return
+    
+  if Input.is_action_just_pressed("ui_slide") or (Input.is_action_pressed("ui_down") and Input.is_action_just_pressed("ui_jump")):
+    state_machine.change_state(state_machine.states_map.Slide)
     return
 
   if Input.is_action_just_pressed("ui_jump"):
@@ -26,10 +30,6 @@ func process(_delta: float) -> void:
 
   if Input.is_action_just_pressed("ui_shoot"):
     print("shoot")
-    return
-
-  if Input.is_action_just_pressed("ui_slide") or (Input.is_action_pressed("ui_down") and Input.is_action_just_pressed("ui_jump")):
-    state_machine.change_state(state_machine.states_map.Slide)
     return
 
 func physics_process(delta: float) -> void:

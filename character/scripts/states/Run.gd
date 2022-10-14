@@ -1,10 +1,10 @@
 extends State
 
-func enter(_msg := {}) -> void:
-  if state_machine.previous_state.name == "Idle":
-    owner.animatedSprite.play("PreRun")
-  else:
+func enter(msg := {}) -> void:
+  if msg.shouldRun:
     owner.animatedSprite.play("Run")
+  else:
+    owner.animatedSprite.play("PreRun")
 
 func handle_input(_event: InputEvent) -> void:
   return

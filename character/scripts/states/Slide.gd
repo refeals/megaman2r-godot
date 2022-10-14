@@ -32,7 +32,7 @@ func process(_delta: float) -> void:
 
   if x_input != 0 and x_input != direction:
     if isNotCollidingAbove:
-      state_machine.change_state(state_machine.states_map.Run)
+      state_machine.change_state(state_machine.states_map.Run, { "shouldRun": true })
       return
     else:
       direction = x_input

@@ -14,7 +14,7 @@ func process(_delta: float) -> void:
       state_machine.change_state(state_machine.states_map.Idle)
       return
     else:
-      state_machine.change_state(state_machine.states_map.Run)
+      state_machine.change_state(state_machine.states_map.Run, { "shouldRun": true })
       return
 
   elif Input.is_action_just_pressed("ui_shoot"):
