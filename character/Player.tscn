@@ -178,6 +178,10 @@ one_shot = true
 visible = false
 current = true
 
+[node name="ShootPosition" type="Node2D" parent="."]
+position = Vector2( 14, -12 )
+
+[connection signal="shoot" from="." to="StateMachine/Idle" method="_on_Player_shoot"]
 [connection signal="animation_finished" from="AnimatedSprite" to="StateMachine/Run" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="timeout" from="StateMachine/Idle/IdleTimer" to="StateMachine/Idle" method="_on_Timer_timeout"]
 [connection signal="timeout" from="StateMachine/Slide/SlideTimer" to="StateMachine/Slide" method="_on_SlideTimer_timeout"]
