@@ -15,7 +15,7 @@ func process(_delta: float) -> void:
   if x_input != 0:
     state_machine.change_state(state_machine.states_map.Run, { "shouldRun": false })
     return
-    
+
   if Input.is_action_just_pressed("ui_slide") or (Input.is_action_pressed("ui_down") and Input.is_action_just_pressed("ui_jump")):
     state_machine.change_state(state_machine.states_map.Slide)
     return
@@ -29,7 +29,7 @@ func process(_delta: float) -> void:
     return
 
   if Input.is_action_just_pressed("ui_shoot"):
-    print("shoot")
+    owner.emit_signal("shoot")
     return
 
 func physics_process(delta: float) -> void:
@@ -52,3 +52,7 @@ func exit() -> void:
 #func _on_AnimatedSprite_animation_finished() -> void:
 #  owner.animatedSprite.set_frame(0)
 #  owner.animatedSprite.stop()
+
+
+func _on_Player_shoot() -> void:
+  owner.shootWeapon()
