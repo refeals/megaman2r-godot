@@ -1,6 +1,6 @@
 extends State
 
-onready var timer = $SlideTimer
+onready var timer := $SlideTimer
 
 func enter(_msg := {}) -> void:
   owner.animatedSprite.play("Slide")

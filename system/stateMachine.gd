@@ -44,6 +44,7 @@ func change_state(target_state: Node, msg := {}):
   current_state.enter(msg)
   emit_signal("state_changed", current_state.name)
   print(previous_state.name, " -> ", current_state.name)
+  owner.shootAnimTimer.stop()
 
 #func initialize(state: NodePath) -> void:
 #  set_active(true)

@@ -11,6 +11,7 @@ const MAX_SPEED = 250
 
 func _ready() -> void:
   position = player.shootPosition.global_position
+  # warning-ignore:return_value_discarded
   get_node("VisibilityNotifier2D").connect("screen_exited", self, "_on_screen_exited")
 
 func _physics_process(_delta: float) -> void:
@@ -19,4 +20,5 @@ func _physics_process(_delta: float) -> void:
   motion = move_and_slide(motion, Vector2.UP)
 
 func _on_screen_exited() -> void:
+  player.numOfShots -= 1
   queue_free()

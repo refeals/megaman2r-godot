@@ -1,10 +1,11 @@
 extends State
 
-onready var timer = $IdleTimer
+onready var timer := $IdleTimer
+onready var player: PlayerPhysics = $"../.."
 
 func enter(_msg := {}) -> void:
-  owner.animatedSprite.set_animation("Idle")
-  owner.animatedSprite.stop()
+  player.animatedSprite.set_animation("Idle")
+  player.animatedSprite.stop()
 
 func handle_input(_event: InputEvent) -> void:
   return
@@ -24,16 +25,16 @@ func process(_delta: float) -> void:
     state_machine.change_state(state_machine.states_map.Jump)
     return
 
-  if !owner.is_on_floor():
+  if !player.is_on_floor():
     state_machine.change_state(state_machine.states_map.Fall)
     return
 
   if Input.is_action_just_pressed("ui_shoot"):
-    owner.emit_signal("shoot")
+    player.emit_signal("shoot")
     return
 
 func physics_process(delta: float) -> void:
-  owner.motion.x = lerp(owner.motion.x, 0, owner.FRICTION * delta)
+  player.motion.x = lerp(player.motion.x, 0, player.FRICTION * delta)
   return
 
 func exit() -> void:
@@ -45,14 +46,18 @@ func exit() -> void:
 #  timer.start()
 
 #func _on_Timer_timeout() -> void:
-#  print(owner.stateMachine.STATES)
-#  owner.animatedSprite.play("Idle")
+#  print(player.stateMachine.STATES)
+#  player.animatedSprite.play("Idle")
 #  run_timer()
 #
 #func _on_AnimatedSprite_animation_finished() -> void:
-#  owner.animatedSprite.set_frame(0)
-#  owner.animatedSprite.stop()
-
+#  player.animatedSprite.set_frame(0)
+#  player.animatedSprite.stop()
 
 func _on_Player_shoot() -> void:
-  owner.shootWeapon()
+  player.shootWeapon()
+  player.animatedSprite.play("Shoot")
+  player.shootAnimTimer.start(player.SHOOT_TIMER)
+
+func _on_ShootAnimTimer_timeout() -> void:
+  player.animatedSprite.play("Idle")
